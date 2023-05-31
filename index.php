@@ -10,6 +10,6 @@ session_start();
         <title>Главная</title>
     </head>
     <body>
-        <?php var_dump($_SESSION['user_id']);?>
+        <?php require './modules/header.php'?>
     </body>
 </html>
