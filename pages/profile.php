@@ -2,8 +2,7 @@
 session_start();
 require '../php/db.php';
 
-$user = select('SELECT * FROM users WHERE id = :id', ['id' => $_SESSION['user_id']]);
-var_dump($user);
+$user = select('SELECT * FROM users WHERE id = :id', ['id' => $_GET['id']]);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -12,6 +11,7 @@ var_dump($user);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../assets/styles/profile.css">
     <title>Профиль</title>
 </head>
 <body>
@@ -19,20 +19,20 @@ var_dump($user);
     <div class="container">
         <div class="user">
             <div class="avatar">
-                <img src="" alt="avatar">
+                <img src="data:<?=$user[0]['type']?>;base64, <?=$user[0]['avatar']?>" alt="avatar">
             </div>
             <div class="user_info">
-                <h2></h2>
-                <span></span>
+                <h2><?php echo $user[0]['surname']; echo ' '.$user[0]['name']; echo ' '.$user[0]['patronymic']; ?></h2>
+                <span>ID: <?php echo $user[0]['id']; ?></span>
             </div>
-            <div class="user_settings">
-                <form action="">
-                    <input type="submit" value="Настройки">
-                </form>
-                <form action="">
-                    <input type="submit" value="Выход">
-                </form>
-            </div>
+            <?php if ($_GET['id'] == $_SESSION['user_id']){ ?>
+                <div class="user_settings">
+                    <a href="./user_settings.php">Настройки</a>
+                    <form action="../php/exit.php" method="post">
+                        <input type="submit" value="Выход">
+                    </form>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </body>

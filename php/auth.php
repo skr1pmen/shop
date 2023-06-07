@@ -11,7 +11,7 @@ if (!empty($login)){
         if (!empty($user)){
             if (password_verify($password, $user[0]['password'])){
                 $_SESSION['user_id'] = $user[0]['id'];
-                header("Location: ../pages/profile.php");
+                header("Location: ../pages/profile.php?id=".$user[0]['id']);
             } else {
                 $_SESSION['error'] = 'Не правильный пароль!';
                 header("Location: ../pages/auth.php");
