@@ -3,6 +3,7 @@ session_start();
 require '../php/db.php';
 
 $user = select('SELECT * FROM users WHERE id = :id', ['id' => $_GET['id']]);
+$item = select('SELECT * FROM cart WHERE id_user = :id', ['id' => $_GET['id']]);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -31,6 +32,15 @@ $user = select('SELECT * FROM users WHERE id = :id', ['id' => $_GET['id']]);
                     <form action="../php/exit.php" method="post">
                         <input type="submit" value="Выход">
                     </form>
+                </div>
+                <div class="cart">
+                    <?php if (!empty($item)){
+                        foreach ($item as $prod){
+                            echo select('SELECT title FROM products WHERE id = :item_id', ['item_id' => $prod['id_item']])[0]['title'];
+                            echo ' - ';
+                            echo select('SELECT price FROM products WHERE id = :item_id', ['item_id' => $prod['id_item']])[0]['price'] . '<br>';
+                        }
+                    }?>
                 </div>
             <?php } ?>
         </div>
